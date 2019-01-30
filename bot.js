@@ -1,34 +1,55 @@
-﻿const Discord = require('discord.js');
+const Discord = require('discord.js');
 const client = new Discord.Client();
-var prefix = "1";
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);  
+  console.log(Logged in as ${client.user.tag}!);
 });
 
-client.on('ready', async() => {
-var server = "503880556967231488"; // ايدي السررفر
-var channel = "537736124228173845";//ايدي الروم
-    setInterval(()=>{
-    client.guilds.get(server).channels.get(channel).send('**Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , Dream , **')
-    },305);
-})
 
-client.on('message', message => {
-  if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+client.on("message", message => {
+    var prefix = "f";
+    const command = message.content.split(" ")[0];
 
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
+    if(command == prefix+"kv"){
 
-  let args = message.content.split(" ").slice(1);
+        if (!message.guild.member(message.author).hasPermission('MOVE_MEMBERS') || !message.guild.member(message.author).hasPermission('ADMINISTRATOR')) {
+            return message.reply('you do not have permission to perform this action!');
+        }
 
-  if (command == "say") {
-if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('?|**\`ADMINISTRATOR\`ليس لديك صلاحيات`**');
-   message.channel.sendMessage(args.join("  "))
-   message.delete()
-  }
- });
+        var member = message.guild.members.get(message.mentions.users.array()[0].id);
+        if(!message.mentions.users){
+            message.reply("please mention the member")
+            return;
+        }
 
- 
-client.login(process.env.BOT_TOKEN);
+    if(!member.voiceChannel){
+    message.reply("i can't include voice channel for member!")
+    return;
+    }
+              message.guild.createChannel('voicekick', 'voice').then(c => {
+                member.setVoiceChannel(c).then(() => {
+                    c.delete(305).catch(console.log)
+
+
+
+
+      });
+     });
+    }
+});
+
+client.login(process.env.TOKEN);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
